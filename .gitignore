@@ -1,0 +1,34 @@
+# --- R / environment ---
+.R_libs/
+.Rhistory
+.RData
+.Rproj.user/
+*.log
+
+# --- Raw downloads (large, regenerable via scripts/01_download_sources.R) ---
+data/raw/
+data/processed/
+data/unmapped/
+
+# --- Generated mapping tables & stats (regenerable via scripts/run_all.R) ---
+results/mapping_tables/
+results/stats/
+
+# --- Artifact mapper source dumps + generated tables (large) ---
+artifacts/mappers/**/HUMAN_9606_idmapping.dat.gz
+artifacts/mappers/**/hgnc_complete_set.txt
+artifacts/mappers/**/mappings/
+artifacts/mappers/**/unmapped/
+artifacts/mappers/**/stats/
+
+# --- Misc ---
+wget-log*
+.DS_Store
+__pycache__/
+*.pyc
+
+# --- Keep small generated reports tracked (negate ignores above) ---
+!results/reports/
+!results/reports/**
+!artifacts/mappers/**/reports/
+!artifacts/mappers/**/reports/**
