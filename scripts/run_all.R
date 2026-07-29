@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# run_all.R — Focused pipeline (ensembl_gene_id / gene_symbol / uniprot_id).
+# run_all.R — Gene / symbol / UniProt (R) then Ensembl transcript (Python).
 # Assumes downloads already exist under data/raw/.
 
 args_cmd <- commandArgs(trailingOnly = FALSE)
@@ -24,6 +24,14 @@ for (step in steps) {
   if (!identical(as.integer(status), 0L)) {
     stop("Pipeline failed at ", step, " (exit status ", status, ")")
   }
+}
+
+message("\n", strrep("=", 60))
+message("Running 07_create_transcript_mappings.py")
+message(strrep("=", 60))
+py_status <- system2("python3", args = file.path("scripts", "07_create_transcript_mappings.py"))
+if (!identical(as.integer(py_status), 0L)) {
+  stop("Pipeline failed at 07_create_transcript_mappings.py (exit status ", py_status, ")")
 }
 
 message("\nPipeline finished successfully.")

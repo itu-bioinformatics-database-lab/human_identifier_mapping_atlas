@@ -1,13 +1,14 @@
 # human_identifier_mapping_atlas
 
-Focused human gene/protein identifier mapping atlas for three ID types only:
+Focused human gene/protein/transcript identifier mapping atlas for:
 
-- Ensembl gene IDs
+- Ensembl gene IDs (`ENSG…`)
+- Ensembl transcript IDs (`ENST…`)
 - Gene symbols
 - UniProt accessions
 
 All valid one-to-many, many-to-one, and many-to-many mappings are preserved.
-Other ID types are ignored. Mapping tables are written as **JSON**.
+Mapping tables are written as **JSON**.
 
 ## How to run
 
@@ -25,6 +26,7 @@ Rscript scripts/02_process_sources.R
 Rscript scripts/03_create_pairwise_mappings.R
 Rscript scripts/04_generate_unmapped_lists.R
 Rscript scripts/05_generate_report.R
+python3 scripts/07_create_transcript_mappings.py
 ```
 
 To (re)download sources:
@@ -41,6 +43,7 @@ FORCE_REDOWNLOAD=1 Rscript scripts/01_download_sources.R
 | `results/stats/` | Pairwise stats, ID counts, unmapped summary |
 | `data/unmapped/*.txt` | One ID per line |
 | `results/reports/identifier_mapping_report.md` | Summary report |
+| `results/reports/ensembl_transcript_mapping_report.md` | Transcript-level mapping report |
 
 ### Pairwise JSON files
 
@@ -50,8 +53,21 @@ FORCE_REDOWNLOAD=1 Rscript scripts/01_download_sources.R
 - `gene_symbol_to_uniprot.json`
 - `uniprot_to_ensembl_gene.json`
 - `uniprot_to_gene_symbol.json`
+- `ensembl_transcript_to_ensembl_gene.json`
+- `ensembl_transcript_to_uniprot.json`
+- `ensembl_transcript_to_gene_symbol.json`
 - `master_identifier_mappings_long.json`
 - `master_identifier_annotations_wide.json`
+
+### Transcript mappings
+
+Built from `data/raw/ensembl_biomart_raw.csv` (BioMart already includes
+`ensembl_transcript_id`). Does not rewrite gene/symbol/UniProt tables:
+
+```bash
+python3 scripts/07_create_transcript_mappings.py
+python3 -m unittest tests.test_transcript_mappings -v
+```
 
 ## Artifact mappers (UniProt / HGNC downloads)
 

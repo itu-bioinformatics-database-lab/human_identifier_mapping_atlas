@@ -4,13 +4,20 @@ This document explains **exactly how the raw data for each database is downloade
 where it lands on disk, how it is processed, and which files are intentionally
 **excluded from git** because of their size.
 
-The atlas maps between three human identifier types only:
+The atlas maps between these human identifier types:
 
 - `ensembl_gene_id` (e.g. `ENSG00000141510`)
+- `ensembl_transcript_id` (e.g. `ENST00000361390`) — from BioMart raw via `scripts/07_create_transcript_mappings.py`
 - `gene_symbol` (HGNC approved symbol, e.g. `TP53`)
 - `uniprot_id` (UniProt accession, e.g. `P04637`)
 
 All one-to-many / many-to-one / many-to-many relationships are preserved.
+
+Transcript pairwise tables (same JSON edge schema as gene/symbol/UniProt):
+
+- `ensembl_transcript_to_ensembl_gene.json`
+- `ensembl_transcript_to_uniprot.json`
+- `ensembl_transcript_to_gene_symbol.json`
 
 ---
 
